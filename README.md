@@ -140,6 +140,27 @@ by construction. This demonstrates the analysis pipeline works end-to-end
 and produces real (not fabricated) statistics -- it is not evidence about
 real markets.
 
+## Integrations
+
+`store/featurestore_sync.py` exports the NLP feature table
+(`analysis.feature_builder.build_feature_table`) into the sibling
+[lite-featurestore](https://github.com/siddharthgaur1/featurestore) project
+as a registered `earnings_call_nlp_features` FeatureGroup (entity_id =
+ticker, event_timestamp = quarter-end date). This turns per-transcript
+signals (sentiment, hedging, evasiveness, guidance accuracy, ...) into
+something a downstream model (e.g. nifty-forecaster) can pull point-in-time
+correct via `FeatureStore.get_historical_features`, instead of re-running
+this whole NLP pipeline itself. Optional dependency — `pip install -e
+../featurestore` (not published to PyPI) to use it:
+
+```python
+from featurestore import FeatureStore
+from store.featurestore_sync import sync_to_feature_store
+
+fs = FeatureStore(config="featurestore.yaml")
+sync_to_feature_store(fs)  # idempotent, safe to call after every pipeline run
+```
+
 ## Limitations
 
 - **Synthetic data by default.** All 30 transcripts and their financial
