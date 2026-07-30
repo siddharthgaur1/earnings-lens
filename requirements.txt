@@ -1,0 +1,27 @@
+# Core -- required for the full pipeline to run end-to-end on the synthetic
+# dataset (fallback NLP models only, no heavy ML downloads).
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.3
+scipy>=1.11
+sqlalchemy>=2.0
+fastapi>=0.110
+uvicorn>=0.27
+pydantic>=2.0
+streamlit>=1.30
+plotly>=5.18
+beautifulsoup4>=4.12
+pdfplumber>=0.10
+chromadb>=0.5
+pytest>=7.4
+
+# Optional -- real NLP engines used automatically if installed, otherwise
+# the pipeline falls back to the lexicon/TF-IDF/regex implementations.
+# transformers>=4.35        # FinBERT sentiment (ProsusAI/finbert)
+# torch                     # required by transformers
+# bertopic>=0.16            # topic modelling
+# sentence-transformers     # semantic embeddings for Chroma search
+# spacy>=3.7                # NER (run: python -m spacy download en_core_web_sm)
+# textstat>=0.7             # readability (module has a manual fallback formula too)
+# yfinance                  # real financial data (best-effort; synthetic data used otherwise)
+# requests                  # only needed for the live scraper/downloader network paths

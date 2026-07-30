@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+data/processed/earnings_lens.db
+data/processed/chroma/
+data/raw/pdfs/
+.ipynb_checkpoints/
