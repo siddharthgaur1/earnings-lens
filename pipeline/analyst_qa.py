@@ -6,8 +6,8 @@ proxy: higher similarity ~ more on-topic/less evasive answer).
 from __future__ import annotations
 
 from pipeline.sentiment import score_sentences
+from pipeline.tone import is_evasive, question_answer_similarity
 from pipeline.topics import top_topics_for_text
-from pipeline.tone import question_answer_similarity, is_evasive
 
 
 def analyze_question(question: str) -> dict:

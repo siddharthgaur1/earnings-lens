@@ -24,15 +24,21 @@ import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-from pipeline.parser import parse_synthetic_record
-from pipeline.sentiment import score_sentences, management_vs_analyst_gap
-from pipeline.topics import top_topics_for_text
-from pipeline.tone import hedging_score, certainty_score, forward_looking_ratio, flesch_kincaid_grade, analyze_qa_tone
 from pipeline.guidance import extract_all_guidance, guidance_accuracy
-from pipeline.ner import extract_entities, entity_frequency
-from store.db import init_db, get_session
-from store.models import Transcript, NlpResult, FinancialOutcome
+from pipeline.ner import entity_frequency, extract_entities
+from pipeline.parser import parse_synthetic_record
+from pipeline.sentiment import management_vs_analyst_gap, score_sentences
+from pipeline.tone import (
+    analyze_qa_tone,
+    certainty_score,
+    flesch_kincaid_grade,
+    forward_looking_ratio,
+    hedging_score,
+)
+from pipeline.topics import top_topics_for_text
 from store.chroma_store import TranscriptStore
+from store.db import get_session, init_db
+from store.models import FinancialOutcome, NlpResult, Transcript
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 log = logging.getLogger("runner")
@@ -101,29 +107,29 @@ def process_one(record: dict, outcome: dict | None, use_finbert: bool = False) -
     entities = extract_entities(parsed["management_text"])
     ent_freq = entity_frequency(entities)
 
-    nlp_row = dict(
-        ticker=parsed["ticker"],
-        quarter=parsed["quarter"],
-        year=parsed["year"],
-        sentiment_engine=sentiment.engine,
-        sentiment_pos_ratio=sentiment.pos_ratio,
-        sentiment_neu_ratio=sentiment.neu_ratio,
-        sentiment_neg_ratio=sentiment.neg_ratio,
-        sentiment_weighted_score=sentiment.weighted_score,
-        mgmt_vs_analyst_gap=gap["gap"],
-        mgmt_vs_analyst_flag=gap["flag"],
-        topics_engine="seed_keyword_fallback",
-        top_topics=topics,
-        hedging_score=hedging_score(parsed["management_text"]),
-        certainty_score=certainty_score(parsed["management_text"]),
-        forward_looking_ratio=forward_looking_ratio(parsed["management_text"]),
-        flesch_kincaid_grade=flesch_kincaid_grade(parsed["management_text"]),
-        avg_evasiveness=avg_evasiveness,
-        n_evasive_answers=n_evasive,
-        guidance_items=guidance_items,
-        guidance_accuracy=accuracy.get("accuracy"),
-        entity_frequency=ent_freq,
-    )
+    nlp_row = {
+        "ticker": parsed["ticker"],
+        "quarter": parsed["quarter"],
+        "year": parsed["year"],
+        "sentiment_engine": sentiment.engine,
+        "sentiment_pos_ratio": sentiment.pos_ratio,
+        "sentiment_neu_ratio": sentiment.neu_ratio,
+        "sentiment_neg_ratio": sentiment.neg_ratio,
+        "sentiment_weighted_score": sentiment.weighted_score,
+        "mgmt_vs_analyst_gap": gap["gap"],
+        "mgmt_vs_analyst_flag": gap["flag"],
+        "topics_engine": "seed_keyword_fallback",
+        "top_topics": topics,
+        "hedging_score": hedging_score(parsed["management_text"]),
+        "certainty_score": certainty_score(parsed["management_text"]),
+        "forward_looking_ratio": forward_looking_ratio(parsed["management_text"]),
+        "flesch_kincaid_grade": flesch_kincaid_grade(parsed["management_text"]),
+        "avg_evasiveness": avg_evasiveness,
+        "n_evasive_answers": n_evasive,
+        "guidance_items": guidance_items,
+        "guidance_accuracy": accuracy.get("accuracy"),
+        "entity_frequency": ent_freq,
+    }
     return {"parsed": parsed, "nlp_row": nlp_row}
 
 
@@ -157,10 +163,8 @@ def run_pipeline(ticker: str | None = None, quarters: int | None = None, force: 
         for r in todo:
             key = (r["ticker"], r["quarter"], r["year"])
             futures[executor.submit(process_one, r, outcomes.get(key), use_finbert)] = r
-        done = 0
-        for future in as_completed(futures):
+        for done, future in enumerate(as_completed(futures), start=1):
             results.append(future.result())
-            done += 1
             log.info(f"[{done}/{len(todo)}] processed {futures[future]['ticker']} {futures[future]['quarter']}{futures[future]['year']}")
 
     # persist

@@ -12,8 +12,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import numpy as np
-
 CHROMA_DIR = Path(__file__).parent.parent / "data" / "processed" / "chroma"
 COLLECTION_NAME = "transcripts"
 
@@ -29,7 +27,7 @@ def _get_sentence_transformer():
         from sentence_transformers import SentenceTransformer
 
         _st_model = SentenceTransformer("all-MiniLM-L6-v2")
-    except Exception:
+    except Exception:  # noqa: BLE001 -- optional dependency unavailable, fall back
         _st_load_failed = True
         _st_model = None
     return _st_model

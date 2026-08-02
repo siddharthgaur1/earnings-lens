@@ -67,7 +67,7 @@ def flesch_kincaid_grade(text: str) -> float:
         import textstat
 
         return round(textstat.flesch_kincaid_grade(text), 2)
-    except Exception:
+    except Exception:  # noqa: BLE001 -- optional dependency unavailable, fall back
         return round(_fk_grade_manual(text), 2)
 
 

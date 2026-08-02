@@ -9,7 +9,11 @@ from __future__ import annotations
 import pandas as pd
 from scipy.stats import spearmanr
 
-from analysis.feature_builder import FEATURE_COLUMNS, OUTCOME_COLUMNS, build_feature_table
+from analysis.feature_builder import (
+    FEATURE_COLUMNS,
+    OUTCOME_COLUMNS,
+    build_feature_table,
+)
 
 
 def compute_correlations(df: pd.DataFrame, alpha: float = 0.05) -> pd.DataFrame:

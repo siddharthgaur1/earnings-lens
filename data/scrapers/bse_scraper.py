@@ -13,7 +13,6 @@ To point this at the live site, pass a real URL to `fetch_listing_page`
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional
 
 from bs4 import BeautifulSoup
 

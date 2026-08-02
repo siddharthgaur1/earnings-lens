@@ -1,4 +1,9 @@
-from pipeline.tone import question_answer_similarity, is_evasive, hedging_score, forward_looking_ratio
+from pipeline.tone import (
+    forward_looking_ratio,
+    hedging_score,
+    is_evasive,
+    question_answer_similarity,
+)
 
 
 def test_on_topic_answer_has_higher_similarity_than_evasive_answer():

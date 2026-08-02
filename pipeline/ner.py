@@ -35,7 +35,7 @@ def _get_spacy_model():
             except OSError:
                 continue
         _spacy_load_failed = True
-    except Exception:
+    except Exception:  # noqa: BLE001 -- optional dependency unavailable, fall back
         _spacy_load_failed = True
     return _nlp
 
@@ -75,7 +75,7 @@ def entity_sentiment_context(text: str, entities: list[dict], window: int = 60) 
     always available, avoids re-triggering the heavy sentiment engine per
     entity mention).
     """
-    from pipeline.sentiment import lexicon_sentence_score, _label_from_score
+    from pipeline.sentiment import _label_from_score, lexicon_sentence_score
 
     results = []
     for e in entities:

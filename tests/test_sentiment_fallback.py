@@ -1,4 +1,8 @@
-from pipeline.sentiment import lexicon_sentence_score, score_sentences, management_vs_analyst_gap
+from pipeline.sentiment import (
+    lexicon_sentence_score,
+    management_vs_analyst_gap,
+    score_sentences,
+)
 
 
 def test_lexicon_positive_sentence():

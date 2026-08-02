@@ -28,7 +28,7 @@ def _bertopic_available():
         import bertopic  # noqa: F401
 
         return True
-    except Exception:
+    except Exception:  # noqa: BLE001 -- optional dependency unavailable, fall back
         return False
 
 
@@ -92,8 +92,8 @@ def _fit_with_bertopic(documents: list[str]) -> dict:  # pragma: no cover - only
 
 
 def _fit_with_tfidf_kmeans(documents: list[str]) -> dict:
-    from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.cluster import KMeans
+    from sklearn.feature_extraction.text import TfidfVectorizer
 
     per_document = [top_topics_for_text(doc) for doc in documents]
 

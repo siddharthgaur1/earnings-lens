@@ -7,8 +7,7 @@ from __future__ import annotations
 import pandas as pd
 
 from store.db import get_session
-from store.models import NlpResult, FinancialOutcome
-
+from store.models import FinancialOutcome, NlpResult
 
 FEATURE_COLUMNS = [
     "sentiment_weighted_score",

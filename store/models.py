@@ -7,7 +7,16 @@ Postgres later is just changing that one string (e.g.
 """
 from __future__ import annotations
 
-from sqlalchemy import Column, Integer, String, Float, Text, Boolean, JSON, UniqueConstraint
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    Column,
+    Float,
+    Integer,
+    String,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()

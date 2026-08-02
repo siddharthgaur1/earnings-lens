@@ -13,11 +13,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from store.db import init_db, get_session
-from store.models import NlpResult, Transcript
-from store.chroma_store import TranscriptStore
 from analysis.correlations import run as run_correlations
 from analysis.feature_builder import build_feature_table
+from store.chroma_store import TranscriptStore
+from store.db import get_session, init_db
+from store.models import NlpResult, Transcript
 
 st.set_page_config(page_title="earnings-lens", layout="wide")
 init_db()

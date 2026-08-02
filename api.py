@@ -14,11 +14,11 @@ from __future__ import annotations
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from store.db import init_db, get_session
-from store.models import NlpResult, Transcript
-from store.chroma_store import TranscriptStore
 from analysis.correlations import run as run_correlations
-from pipeline.runner import run_pipeline, load_transcripts, load_outcomes, process_one
+from pipeline.runner import load_outcomes, load_transcripts, process_one
+from store.chroma_store import TranscriptStore
+from store.db import get_session, init_db
+from store.models import NlpResult
 
 app = FastAPI(title="earnings-lens API")
 

@@ -20,7 +20,6 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Optional
 
 GUIDANCE_KEYWORDS = re.compile(r"\b(expect|guidance|outlook|guide[ds]?|forecast)\b", re.IGNORECASE)
 
@@ -109,7 +108,7 @@ def parse_text(
     company: str = "",
     ticker: str = "",
     quarter: str = "",
-    year: Optional[int] = None,
+    year: int | None = None,
 ) -> dict:
     turns = diarize(raw_text)
 
@@ -143,7 +142,7 @@ def parse_text(
     }
 
 
-def parse_pdf(path: Path, company: str = "", ticker: str = "", quarter: str = "", year: Optional[int] = None) -> dict:
+def parse_pdf(path: Path, company: str = "", ticker: str = "", quarter: str = "", year: int | None = None) -> dict:
     raw_text = extract_text_from_pdf(path)
     return parse_text(raw_text, company=company, ticker=ticker, quarter=quarter, year=year)
 

@@ -1,4 +1,4 @@
-from pipeline.parser import parse_text, extract_guidance_sentences, diarize
+from pipeline.parser import diarize, extract_guidance_sentences, parse_text
 
 SAMPLE = """[MANAGEMENT] We had a strong quarter with solid revenue growth.
 [MANAGEMENT] We expect margins to improve next year.

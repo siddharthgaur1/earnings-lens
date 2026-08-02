@@ -85,7 +85,7 @@ def _get_finbert():
         from transformers import pipeline as hf_pipeline
 
         _finbert_pipeline = hf_pipeline("sentiment-analysis", model="ProsusAI/finbert")
-    except Exception:
+    except Exception:  # noqa: BLE001 -- optional dependency unavailable, fall back
         # covers: transformers not installed, model weights not
         # downloadable (offline / no network), or any runtime load error.
         _finbert_load_failed = True
