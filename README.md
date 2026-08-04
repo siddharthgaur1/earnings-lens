@@ -82,7 +82,7 @@ tests/
    (NLP feature) x (financial outcome) pair, run once and reported in
    full below -- including non-significant results.
 
-## Actual correlation findings (from a real run of `analysis/correlations.py` on the 30-transcript synthetic corpus)
+## Results (actual correlation findings, from a real run of `analysis/correlations.py` on the 30-transcript synthetic corpus)
 
 ```
                  feature                   outcome  n     rho  p_value  significant
